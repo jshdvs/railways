@@ -8,9 +8,12 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const map = L.map('map').setView([46, -80], 5);
+  map.createPane('markerPane');
+map.getPane('markerPane').style.zIndex = 650;  // default overlayPane is 400
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap, CARTO', subdomains: 'abcd', maxZoom: 20
 }).addTo(map);
+
 
 fetch('https://jshdvs.github.io/railways/rail-lines.geojson')
   .then(r => r.json())
@@ -49,6 +52,7 @@ const cities = {
 
 Object.entries(cities).forEach(([name, coords]) =>
   L.circleMarker(coords, {
+    pane: 'markerPane',     
     radius: 6,
     fillColor: "#002855",
     color: "#ffffff",
