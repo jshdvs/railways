@@ -47,7 +47,16 @@ const cities = {
   "Hearst":[49.6823,-83.6666]
 };
 Object.entries(cities).forEach(([name, coords]) =>
-  L.marker(coords).addTo(map).bindPopup(`<strong>${name}</strong>`)
+  for (const [name, coords] of Object.entries(cities)) {
+  L.circleMarker(coords, {
+    radius: 6,             // size of the dot
+    fillColor: "#007bff",  // blue fill (Bootstrap primary)
+    color: "#007bff",      // blue outline
+    weight: 1,             // outline thickness
+    opacity: 1,
+    fillOpacity: 0.9
+  }).addTo(map).bindPopup(`<strong>${name}</strong>`);
+}
 );
 console.log('Sample properties:', data.features[0].properties);
 </script>
