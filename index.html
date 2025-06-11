@@ -38,7 +38,7 @@ fetch('https://jshdvs.github.io/railways/rail-lines.geojson')
   })
   .catch(err => console.error('Fetch error:', err));
 
-// Add the city markers (same as before)
+// Add the city markers as small blue dots
 const cities = {
   "Oshawa":[43.8971,-78.8658], "Toronto":[43.6511,-79.3470],
   "Hamilton":[43.2557,-79.8711], "Thorold":[43.1225,-79.2021],
@@ -46,18 +46,19 @@ const cities = {
   "Sarnia":[42.9745,-82.4066], "Sault Ste. Marie":[46.5219,-84.3461],
   "Hearst":[49.6823,-83.6666]
 };
+
 Object.entries(cities).forEach(([name, coords]) =>
-  for (const [name, coords] of Object.entries(cities)) {
   L.circleMarker(coords, {
-    radius: 6,             // size of the dot
-    fillColor: "#007bff",  // blue fill (Bootstrap primary)
-    color: "#007bff",      // blue outline
-    weight: 1,             // outline thickness
+    radius: 6,
+    fillColor: "#002855",
+    color: "#ffffff",
+    weight: 1,
     opacity: 1,
     fillOpacity: 0.9
-  }).addTo(map).bindPopup(`<strong>${name}</strong>`);
-}
+  }).addTo(map).bindPopup(`<strong>${name}</strong>`)
 );
+
 console.log('Sample properties:', data.features[0].properties);
 </script>
-</body></html>
+</body>
+</html>
