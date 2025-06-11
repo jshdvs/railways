@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head>
+  <title>Canada Rail Map</title>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>#map { height: 100vh; }</style>
+</head><body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map('map').setView([46, -80], 5);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap, CARTO', subdomains: 'abcd', maxZoom: 20
+}).addTo(map);
+
+fetch('hotosm_can_railways_lines_geojson.geojson')
+  .then(r => r.json())
+  .then(data => {
+    console.log('Rail features loaded:', data.features.length);
+    const railLayer = L.geoJSON(data, {
+  filter: f => ['LineString', 'MultiLineString'].includes(f.geometry.type),
+  style: f => {
+    const rawName = (f.properties.name || '').toLowerCase();
+    let color = '#DAA520'; // yellow default
+
+    if (rawName.includes('cn')) color = 'red';
+    else if (rawName.includes('cp')) color = 'blue';
+
+    return { color, weight: 2 };
+  },
+  onEachFeature: (f, layer) => {
+    const name = f.properties.name || 'Unknown';
+    layer.bindPopup(`<strong>Name:</strong> ${name}`);
+  }
+}).addTo(map);
+
+
+    map.fitBounds(railLayer.getBounds());
+  })
+  .catch(err => console.error('Fetch error:', err));
+
+// Add the city markers (same as before)
+const cities = {
+  "Oshawa":[43.8971,-78.8658], "Toronto":[43.6511,-79.3470],
+  "Hamilton":[43.2557,-79.8711], "Thorold":[43.1225,-79.2021],
+  "Port Colborne":[42.9006,-79.2520], "Windsor":[42.3149,-83.0364],
+  "Sarnia":[42.9745,-82.4066], "Sault Ste. Marie":[46.5219,-84.3461],
+  "Hearst":[49.6823,-83.6666]
+};
+Object.entries(cities).forEach(([name, coords]) =>
+  L.marker(coords).addTo(map).bindPopup(`<strong>${name}</strong>`)
+);
+console.log('Sample properties:', data.features[0].properties);
+</script>
+</body></html>
