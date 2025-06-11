@@ -20,9 +20,9 @@ fetch('https://jshdvs.github.io/railways/rail-lines.geojson')
   filter: f => ['LineString', 'MultiLineString'].includes(f.geometry.type),
   style: f => {
     const rawName = (f.properties.name || '').toLowerCase();
-    let color = '#002855'; // yellow default
+    let color = '#002855'; // dark blue
 
-    if (rawName.includes('cn')) color = '#003DA4';
+    if (rawName.includes('cn')) color = '#F8423A';
     else if (rawName.includes('cp')) color = '#6CABE3';
 
     return { color, weight: 2 };
