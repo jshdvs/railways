@@ -12,7 +12,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap, CARTO', subdomains: 'abcd', maxZoom: 20
 }).addTo(map);
 
-fetch('hotosm_can_railways_lines_geojson.geojson')
+fetch('https://github.com/jshdvs/railways/blob/main/rail-lines.geojson')
   .then(r => r.json())
   .then(data => {
     console.log('Rail features loaded:', data.features.length);
